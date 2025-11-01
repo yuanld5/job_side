@@ -1,10 +1,12 @@
 import { useState, useCallback } from "react"
 import { Message } from "@/components/chat/ChatMessage"
 import { executeWebAction, parseCommand } from "@/services/webAction"
+import { useI18n } from "@/contexts/I18nContext"
 
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>([])
   const [isProcessing, setIsProcessing] = useState(false)
+  const { t, locale } = useI18n()
 
   const addMessage = useCallback((message: Omit<Message, "id" | "timestamp">) => {
     const newMessage: Message = {
@@ -28,7 +30,7 @@ export function useChat() {
     try {
       // 解析指令并执行网页操作
       const request = parseCommand(content)
-      const response = await executeWebAction(request)
+      const response = await executeWebAction(request, locale)
 
       addMessage({
         role: "assistant",
@@ -37,12 +39,12 @@ export function useChat() {
     } catch (error) {
       addMessage({
         role: "assistant",
-        content: `操作失败: ${error instanceof Error ? error.message : "未知错误"}`,
+        content: `${t.chat.error}: ${error instanceof Error ? error.message : t.chat.unknownError}`,
       })
     } finally {
       setIsProcessing(false)
     }
-  }, [addMessage])
+  }, [addMessage, t, locale])
 
   const clearMessages = useCallback(() => {
     setMessages([])

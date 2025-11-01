@@ -3,12 +3,16 @@
   "name": "Job Side - 网页操作助手",
   "version": "1.0.0",
   "description": "通过自然语言指令控制网页操作",
+  "background": {
+    "service_worker": "background.js"
+  },
   "side_panel": {
     "default_path": "index.html"
   },
   "permissions": [
     "sidePanel",
     "activeTab",
+    "tabs",
     "scripting"
   ],
   "host_permissions": [

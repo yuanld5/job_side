@@ -1,76 +1,168 @@
 # Job Side - Chrome Extension
 
-一个基于 Next.js + shadcn/ui + Tailwind CSS 开发的 Chrome 侧边栏助手应用。
+A Chrome sidebar assistant application built with Next.js, shadcn/ui, and Tailwind CSS.
 
-## 功能特性
+## Features
 
-- 💬 聊天式交互界面
-- 🎨 现代化的 UI 设计
-- 🏗️ 完整的架构设计，便于扩展
-- 🔧 基于 Next.js 14 构建
+- 💬 Chat-style interaction interface
+- 🎨 Modern UI design
+- 🏗️ Complete architecture for easy expansion
+- 🔧 Built with Next.js 14
+- 🌐 Internationalization (i18n) support
+- 🤖 LLM integration with LangChain and Qwen
+- 📦 Global state management with Zustand
+- 🧪 Testing framework included
 
-## 技术栈
+## Tech Stack
 
-- **框架**: Next.js 14
-- **UI 组件**: shadcn/ui
-- **样式**: Tailwind CSS
-- **语言**: TypeScript
+- **Framework**: Next.js 14 (App Router)
+- **UI Components**: shadcn/ui
+- **Styling**: Tailwind CSS
+- **Language**: TypeScript
+- **State Management**: Zustand
+- **LLM Framework**: LangChain, LangGraph
+- **LLM Model**: Qwen (Tongyi Qianwen)
+- **Internationalization**: Custom i18n solution
 
-## 项目结构
+## Project Structure
 
 ```
 job_side/
 ├── app/                  # Next.js App Router
-│   ├── layout.tsx       # 根布局
-│   ├── page.tsx         # 主页面
-│   └── globals.css      # 全局样式
-├── components/           # React 组件
-│   ├── ui/              # shadcn/ui 基础组件
-│   └── chat/            # 聊天相关组件
-├── lib/                 # 工具函数
-├── public/              # 静态资源
-└── ...config files      # 配置文件
+│   ├── layout.tsx       # Root layout
+│   ├── page.tsx         # Home page
+│   ├── error.tsx         # Error boundary
+│   ├── loading.tsx       # Loading state
+│   ├── not-found.tsx    # 404 page
+│   └── globals.css      # Global styles
+├── components/           # React components
+│   ├── ui/              # shadcn/ui base components
+│   ├── chat/            # Chat-related components
+│   └── providers/       # Context providers
+├── store/               # Zustand state management
+│   ├── appStore.ts      # App global state
+│   └── chatStore.ts     # Chat state
+├── lib/                 # Utilities
+│   ├── agents/          # LangChain agents
+│   ├── llm/             # LLM integration
+│   ├── tools/           # Web action tools
+│   ├── data/            # Data fetching utilities
+│   ├── hooks/           # Custom hooks
+│   └── routes/          # Route management
+├── locales/             # i18n translations
+│   ├── en.ts            # English
+│   └── zh.ts            # Chinese
+├── services/            # Business logic
+└── scripts/             # Utility scripts
 ```
 
-## 安装和运行
+## Installation
 
-### 1. 安装依赖
+### 1. Install dependencies
 
 ```bash
 npm install
 ```
 
-### 2. 开发模式
+### 2. Set up environment variables
+
+Create a `.env.local` file in the root directory:
+
+```env
+QWEN_API_KEY=your_api_key_here
+# or
+DASHSCOPE_API_KEY=your_api_key_here
+
+# Optional: Configure Qwen model
+QWEN_MODEL=qwen-turbo
+QWEN_BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1
+
+# Optional: Use DashScope API directly
+USE_DASHSCOPE=true
+
+# Optional: Set log level
+LOG_LEVEL=INFO
+```
+
+### 3. Development mode
 
 ```bash
 npm run dev
 ```
 
-### 3. 构建生产版本
+### 4. Build for production
 
 ```bash
 npm run build
 ```
 
-构建完成后，输出文件在 `out/` 目录。
+The output files will be in the `out/` directory.
 
-## Chrome Extension 集成
+## Chrome Extension Integration
 
-这个项目设计为 Chrome Extension 的侧边栏面板。需要在 Chrome Extension manifest 中配置侧边栏面板。
+This project is designed as a Chrome Extension sidebar panel. Configure the sidebar panel in the Chrome Extension manifest.
 
-## 未来扩展
+See [CHROME_EXTENSION.md](./CHROME_EXTENSION.md) for detailed integration guide.
 
-当前架构已为以下功能预留了扩展空间：
+## Available Scripts
 
-- 网页操作功能实现（TODO: 在 `ChatContainer` 中）
-- 指令历史记录
-- 用户偏好设置
-- 更多操作类型支持
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm test` - Run all tests
+- `npm run test:qwen` - Test Qwen model integration
+- `npm run test:logger` - Test logger system
 
-## 开发说明
+## Features
 
-- 界面已完整实现，操作功能待实现
-- 所有组件都采用 TypeScript 编写，提供类型安全
-- 使用 shadcn/ui 组件库，可轻松添加更多 UI 组件
-- 遵循 Next.js App Router 最佳实践
+### Internationalization (i18n)
 
+The application supports multiple languages:
+- English
+- Chinese (Simplified)
+
+Switch languages using the language switcher in the header.
+
+### State Management
+
+- **Global State**: Managed with Zustand
+  - App settings (theme, preferences)
+  - Chat history and sessions
+  - Recent commands
+- **Local State**: React Hooks
+- **Context API**: I18n context
+
+### LLM Integration
+
+- LangChain for agent orchestration
+- Qwen (Tongyi Qianwen) as the LLM
+- Support for web action tools
+- Agent and graph-based workflows
+
+### Testing
+
+Custom testing framework included:
+- Logger tests
+- LLM integration tests
+- Web actions tests
+- Service tests
+
+## Development
+
+- All components are written in TypeScript for type safety
+- Uses shadcn/ui component library for easy UI component addition
+- Follows Next.js App Router best practices
+- Includes comprehensive error handling and loading states
+
+## Future Expansion
+
+The architecture is designed for easy expansion:
+- Web action functionality (TODO: in `ChatContainer`)
+- Command history
+- User preferences
+- Support for more action types
+
+## License
+
+Private project

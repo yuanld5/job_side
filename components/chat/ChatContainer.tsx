@@ -4,16 +4,18 @@ import { ChatMessage } from "./ChatMessage"
 import { ChatInput } from "./ChatInput"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useChat } from "@/lib/hooks/useChat"
+import { useI18n } from "@/contexts/I18nContext"
 
 export function ChatContainer() {
   const { messages, isProcessing, sendMessage } = useChat()
+  const { t } = useI18n()
 
   return (
     <div className="flex flex-col h-full">
       <ScrollArea className="flex-1 p-4">
         {messages.length === 0 ? (
           <div className="flex items-center justify-center h-full text-muted-foreground">
-            <p className="text-sm">开始输入指令来控制网页操作</p>
+            <p className="text-sm">{t.chat.emptyState}</p>
           </div>
         ) : (
           <div>

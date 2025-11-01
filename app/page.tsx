@@ -1,13 +1,22 @@
+"use client"
+
 import { ChatContainer } from "@/components/chat/ChatContainer"
+import { LanguageSwitcher } from "@/components/LanguageSwitcher"
+import { useI18n } from "@/contexts/I18nContext"
 
 export default function Home() {
+  const { t } = useI18n()
+
   return (
     <main className="h-screen w-full flex flex-col bg-background">
-      <header className="border-b px-4 py-3 bg-card">
-        <h1 className="text-lg font-semibold">网页操作助手</h1>
-        <p className="text-xs text-muted-foreground mt-1">
-          输入指令来控制当前网页
-        </p>
+      <header className="border-b px-4 py-3 bg-card flex items-center justify-between">
+        <div>
+          <h1 className="text-lg font-semibold">{t.common.title}</h1>
+          <p className="text-xs text-muted-foreground mt-1">
+            {t.common.description}
+          </p>
+        </div>
+        <LanguageSwitcher />
       </header>
       <div className="flex-1 overflow-hidden">
         <ChatContainer />

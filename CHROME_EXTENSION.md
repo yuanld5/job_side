@@ -2,21 +2,25 @@
 
 ## 构建步骤
 
-1. **构建 Next.js 应用**
+1. **构建 Next.js 应用和 Chrome Extension**
+   ```bash
+   npm run build:extension
+   ```
+   这个命令会：
+   - 构建 Next.js 应用（输出到 `out/` 目录）
+   - 自动复制 `manifest.json` 和 `background.js` 到 `out/` 目录
+
+   或者分步执行：
    ```bash
    npm run build
+   node scripts/build-extension.js
    ```
-   构建完成后，输出文件在 `out/` 目录。
 
-2. **准备 Chrome Extension 文件**
-   - 将 `out/` 目录中的文件复制到 Chrome Extension 项目目录
-   - 将 `manifest.json` 放在扩展根目录
-
-3. **加载扩展**
+2. **加载扩展**
    - 打开 Chrome，访问 `chrome://extensions/`
    - 启用"开发者模式"
    - 点击"加载已解压的扩展程序"
-   - 选择项目根目录
+   - **选择 `out/` 目录**（不是项目根目录！）
 
 ## 使用侧边栏
 

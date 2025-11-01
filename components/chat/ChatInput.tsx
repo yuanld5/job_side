@@ -4,6 +4,7 @@ import { useState, KeyboardEvent } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Send } from "lucide-react"
+import { useI18n } from "@/contexts/I18nContext"
 
 interface ChatInputProps {
   onSendMessage: (message: string) => void
@@ -12,6 +13,7 @@ interface ChatInputProps {
 
 export function ChatInput({ onSendMessage, disabled = false }: ChatInputProps) {
   const [input, setInput] = useState("")
+  const { t } = useI18n()
 
   const handleSend = () => {
     if (input.trim() && !disabled) {
@@ -33,7 +35,7 @@ export function ChatInput({ onSendMessage, disabled = false }: ChatInputProps) {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyPress={handleKeyPress}
-        placeholder="输入指令..."
+        placeholder={t.chat.placeholder}
         disabled={disabled}
         className="flex-1"
       />

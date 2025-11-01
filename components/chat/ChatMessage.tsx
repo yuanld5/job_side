@@ -40,7 +40,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
             isUser ? "text-right" : "text-left"
           )}
         >
-          {message.timestamp.toLocaleTimeString("zh-CN", {
+          {message.timestamp.toLocaleTimeString(undefined, {
             hour: "2-digit",
             minute: "2-digit",
           })}
