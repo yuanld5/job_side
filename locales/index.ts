@@ -3,8 +3,8 @@ import { en } from "./en"
 
 export type Locale = "zh" | "en"
 
-// 使用联合类型确保两种语言的结构一致
-export type Translation = typeof zh & typeof en
+// 使用 zh 的类型作为基础类型（两种语言的接口结构应该一致）
+export type Translation = typeof zh
 
 export const translations = {
   zh,

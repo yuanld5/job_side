@@ -1,7 +1,9 @@
 "use client"
 
 import { createContext, useContext, useState, ReactNode, useEffect } from "react"
-import { Locale, translations, defaultLocale, type Translation } from "@/locales"
+import { Locale, translations, defaultLocale } from "@/locales"
+
+type Translation = typeof translations.zh
 
 interface I18nContextType {
   locale: Locale
@@ -30,7 +32,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const value: I18nContextType = {
     locale,
     setLocale,
-    t: translations[locale],
+    t: translations[locale] as Translation,
   }
 
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>

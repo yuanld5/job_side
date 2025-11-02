@@ -47,7 +47,8 @@ async function testQwen() {
     logger.info(`\n${t.testQwen.modelResponseStream}:`)
     logger.info("-".repeat(50))
     for await (const chunk of stream) {
-      process.stdout.write(chunk.content)
+      const content = typeof chunk.content === 'string' ? chunk.content : JSON.stringify(chunk.content)
+      process.stdout.write(content)
     }
     logger.info("\n" + "-".repeat(50))
 
@@ -58,7 +59,7 @@ async function testQwen() {
       logger.error(`${t.testQwen.errorInfo}:`, error.message)
       logger.error(`${t.testQwen.errorStack}:`, error.stack)
     } else {
-      logger.error(`${t.testQwen.unknownError}:`, error)
+      logger.error(`${t.testQwen.unknownError}:`, undefined, { error: String(error) })
     }
     process.exit(1)
   }

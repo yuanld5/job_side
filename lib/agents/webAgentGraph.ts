@@ -102,8 +102,8 @@ export async function createWebAgentGraph(locale: Locale = "zh") {
   logger.debug(tLogger.addingNodesEdges)
   // 添加节点和边
   workflow.addNode("agent", callAgent)
-  workflow.addEdge(START, "agent")
-  workflow.addEdge("agent", END)
+  workflow.addEdge(START as "__start__", "agent" as any)
+  workflow.addEdge("agent" as any, END as "__end__")
 
   logger.debug(tLogger.compilingGraph)
   // 编译图

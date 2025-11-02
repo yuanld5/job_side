@@ -42,7 +42,8 @@ async function runTests() {
     await import("../store/__tests__/appStore.test")
     await import("../store/__tests__/chatStore.test")
   } catch (error) {
-    logger.warn("部分测试文件导入失败（可能是预期的）", error)
+    const errorMsg = error instanceof Error ? error.message : String(error)
+    logger.warn("部分测试文件导入失败（可能是预期的）", undefined, { error: errorMsg })
   }
 
   // 运行所有测试

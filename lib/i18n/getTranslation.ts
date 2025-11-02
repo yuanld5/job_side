@@ -5,7 +5,7 @@ import { translations, type Locale, type Translation } from "@/locales"
  * 支持占位符替换
  */
 export function getTranslation(locale: Locale): Translation {
-  return translations[locale]
+  return translations[locale] as Translation
 }
 
 /**

@@ -28,7 +28,7 @@ class TestRunner {
 
   async run() {
     const t = getTestTranslation(getCurrentLocale())
-    logger.info(t.startRunning, { testCount: this.tests.length })
+    logger.info(t.startRunning, undefined, { testCount: this.tests.length })
     
     const results: TestResult[] = []
     
@@ -38,7 +38,7 @@ class TestRunner {
         await test.fn()
         const duration = Date.now() - startTime
         results.push({ name: test.name, passed: true, duration })
-        logger.info(`✓ ${test.name}`, { duration: `${duration}ms` })
+        logger.info(`✓ ${test.name}`, undefined, { duration: `${duration}ms` })
       } catch (error) {
         const duration = Date.now() - startTime
         results.push({
@@ -47,7 +47,7 @@ class TestRunner {
           error: error instanceof Error ? error : new Error(String(error)),
           duration,
         })
-        logger.error(`✗ ${test.name}`, error)
+        logger.error(`✗ ${test.name}`, undefined, error instanceof Error ? error : { error: String(error) })
       }
     }
 
@@ -61,7 +61,7 @@ class TestRunner {
     const failed = results.filter((r) => !r.passed).length
     const totalDuration = results.reduce((sum, r) => sum + r.duration, 0)
 
-    logger.info(t.testComplete, {
+    logger.info(t.testComplete, undefined, {
       [t.total]: results.length,
       [t.passed]: passed,
       [t.failed]: failed,
