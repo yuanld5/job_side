@@ -4,7 +4,7 @@
  */
 
 import { useRouter as useNextRouter, usePathname } from "next/navigation"
-import { routes, type Route } from "@/lib/routes"
+import { routes, dynamicRoutes, type Route } from "@/lib/routes"
 
 export function useRouter() {
   const router = useNextRouter()
@@ -14,10 +14,11 @@ export function useRouter() {
     ...router,
     pathname,
     routes,
-    navigate: (route: Route) => {
+    dynamicRoutes,
+    navigate: (route: Route | string) => {
       router.push(route)
     },
-    isActive: (route: Route) => {
+    isActive: (route: Route | string) => {
       return pathname === route
     },
   }

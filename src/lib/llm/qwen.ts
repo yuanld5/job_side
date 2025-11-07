@@ -35,13 +35,13 @@ export async function createQwenModel() {
     logger.info(t.messages.usingDashScope)
     
     // ChatAlibabaTongyi 会从环境变量 DASHSCOPE_API_KEY 或 ALI_API_KEY 读取
-    // 确保环境变量已设置
+    // 确保环境变量已设置（使用类型断言，因为 process.env 在 TypeScript 中是只读的）
     if (!process.env.DASHSCOPE_API_KEY) {
-      process.env.DASHSCOPE_API_KEY = apiKey
+      ;(process.env as any).DASHSCOPE_API_KEY = apiKey
       logger.debug(t.messages.settingEnvVar.replace("{key}", "DASHSCOPE_API_KEY"))
     }
     if (!process.env.ALI_API_KEY) {
-      process.env.ALI_API_KEY = apiKey
+      ;(process.env as any).ALI_API_KEY = apiKey
       logger.debug(t.messages.settingEnvVar.replace("{key}", "ALI_API_KEY"))
     }
     

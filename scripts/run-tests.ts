@@ -18,29 +18,29 @@ async function runTests() {
   // 动态导入测试文件
   try {
     // 核心工具
-    await import("../lib/utils/__tests__/utils.test")
-    await import("../lib/logger/__tests__/logger.test")
+    await import("../src/lib/utils/__tests__/utils.test")
+    await import("../src/lib/logger/__tests__/logger.test")
     
     // 国际化
-    await import("../lib/i18n/__tests__/getTranslation.test")
+    await import("../src/lib/i18n/__tests__/getTranslation.test")
     
     // 数据相关
-    await import("../lib/data/__tests__/cache.test")
-    await import("../lib/data/__tests__/fetcher.test")
+    await import("../src/lib/data/__tests__/cache.test")
+    await import("../src/lib/data/__tests__/fetcher.test")
     
     // 路由
-    await import("../lib/routes/__tests__/routes.test")
+    await import("../src/lib/routes/__tests__/routes.test")
     
     // LLM 和工具
-    await import("../lib/llm/__tests__/qwen.test")
-    await import("../lib/tools/__tests__/webActions.test")
+    await import("../src/lib/llm/__tests__/qwen.test")
+    await import("../src/lib/tools/__tests__/webActions.test")
     
     // 服务
-    await import("../services/__tests__/webAction.test")
+    await import("../src/services/__tests__/webAction.test")
     
     // 状态管理
-    await import("../store/__tests__/appStore.test")
-    await import("../store/__tests__/chatStore.test")
+    await import("../src/store/__tests__/appStore.test")
+    await import("../src/store/__tests__/chatStore.test")
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : String(error)
     logger.warn("部分测试文件导入失败（可能是预期的）", undefined, { error: errorMsg })

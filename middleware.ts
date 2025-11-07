@@ -1,8 +1,18 @@
 /**
  * Next.js Middleware
- * 在请求处理前执行
- * 注意：由于配置了 output: 'export'，Middleware 不会在静态导出时工作
- * 如果需要 Middleware，需要移除 output: 'export' 配置
+ * 
+ * ⚠️ 重要提示：由于 next.config.js 中配置了 output: 'export'（静态导出），
+ * Middleware 在构建后的静态文件中不会执行。
+ * 
+ * 静态导出模式适用于：
+ * - Chrome Extension 等静态部署场景
+ * - 不需要服务端功能的场景
+ * 
+ * 如果需要使用 Middleware，需要：
+ * 1. 移除 next.config.js 中的 output: 'export' 配置
+ * 2. 使用 Next.js 服务器模式部署
+ * 
+ * 当前项目为 Chrome Extension，使用静态导出模式，此文件仅供参考。
  */
 
 import { NextResponse } from "next/server"
@@ -16,8 +26,26 @@ export function middleware(request: NextRequest) {
   response.headers.set("X-Content-Type-Options", "nosniff")
   response.headers.set("X-Frame-Options", "DENY")
   response.headers.set("X-XSS-Protection", "1; mode=block")
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
+  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
   
-  // 可以根据需要进行路由重定向、认证检查等
+  // 示例：基于路径的重定向
+  const { pathname } = request.nextUrl
+  
+  // 示例：认证检查（伪代码）
+  // const token = request.cookies.get('token')
+  // if (!token && pathname.startsWith('/dashboard')) {
+  //   return NextResponse.redirect(new URL('/login', request.url))
+  // }
+  
+  // 示例：国际化重定向
+  // if (pathname === '/') {
+  //   const locale = request.headers.get('accept-language')?.split(',')[0] || 'zh'
+  //   return NextResponse.redirect(new URL(`/${locale}`, request.url))
+  // }
+  
+  // 示例：添加自定义头
+  response.headers.set("X-Custom-Header", "Next.js-Middleware")
   
   return response
 }
