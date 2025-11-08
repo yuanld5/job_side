@@ -7,12 +7,12 @@
 export const routes = {
   home: "/",
   login: "/login",
+  settings: "/settings",
   about: "/about",
   dashboard: "/dashboard",
   dashboardSettings: "/dashboard/settings",
   // 添加新路由示例：
   // history: "/history",
-  // settings: "/settings",
   // profile: "/profile",
 } as const
 

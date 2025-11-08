@@ -42,7 +42,7 @@ async function runTests() {
     
     // 状态管理
     await import("../src/shared/store/__tests__/appStore.test")
-    await import("../src/shared/store/__tests__/chatStore.test")
+    await import("../src/features/chat/store/__tests__/chatStore.test")
     
     // 聊天功能
     await import("../src/features/chat/hooks/__tests__/useChat.test")

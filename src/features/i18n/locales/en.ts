@@ -132,5 +132,24 @@ Always reply to users in English.`,
     chinese: "中文",
     english: "English",
   },
+  settings: {
+    title: "Settings",
+    theme: {
+      title: "Theme",
+      light: "Light",
+      dark: "Dark",
+      system: "System",
+    },
+    language: {
+      title: "Language",
+    },
+    preferences: {
+      title: "Preferences",
+      autoSave: "Auto Save",
+      notifications: "Notifications",
+      soundEnabled: "Sound",
+    },
+    back: "Back",
+  },
 } as const
 

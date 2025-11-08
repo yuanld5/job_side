@@ -1,13 +1,16 @@
 /**
  * Server Actions
  * Next.js 14+ 服务器操作
+ * 
+ * 注意：这些是示例代码，实际使用时应该根据业务需求进行修改
+ * 建议将 Server Actions 放在对应的 domain 或 feature 目录下
  */
 
 "use server"
 
 import { revalidatePath } from "next/cache"
 
-// 示例：表单提交操作
+// 示例：表单提交操作（仅供参考）
 export async function submitForm(formData: FormData) {
   const name = formData.get("name") as string
   const email = formData.get("email") as string

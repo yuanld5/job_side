@@ -132,5 +132,24 @@ export const zh = {
     chinese: "中文",
     english: "English",
   },
+  settings: {
+    title: "设置",
+    theme: {
+      title: "主题",
+      light: "浅色",
+      dark: "深色",
+      system: "跟随系统",
+    },
+    language: {
+      title: "语言",
+    },
+    preferences: {
+      title: "偏好设置",
+      autoSave: "自动保存",
+      notifications: "通知",
+      soundEnabled: "声音提示",
+    },
+    back: "返回",
+  },
 } as const
 

@@ -12,7 +12,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "test": "tsx scripts/run-tests.ts",
     "test:qwen": "tsx scripts/test-qwen.ts",
-    "test:logger": "tsx -e \"import('./src/lib/logger/__tests__/logger.test')\""
+    "test:logger": "tsx -e \"import('./src/shared/logger/__tests__/logger.test')\""
   },
   "dependencies": {
     "@langchain/community": "^0.3.0",
