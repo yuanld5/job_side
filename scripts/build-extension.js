@@ -10,10 +10,11 @@ const path = require('path');
 const rootDir = path.resolve(__dirname, '..');
 const outDir = path.join(rootDir, 'out');
 
-// 需要复制的文件列表
+// 需要复制的文件列表（从 extension 目录）
+const extensionDir = path.join(rootDir, 'extension');
 const filesToCopy = [
-  'manifest.json',
-  'background.js'
+  { src: path.join(extensionDir, 'manifest.json'), dest: 'manifest.json' },
+  { src: path.join(extensionDir, 'background.js'), dest: 'background.js' }
 ];
 
 console.log('📦 准备Chrome扩展文件...');
@@ -25,20 +26,19 @@ if (!fs.existsSync(outDir)) {
 }
 
 // 复制文件
-filesToCopy.forEach(file => {
-  const srcPath = path.join(rootDir, file);
-  const destPath = path.join(outDir, file);
+filesToCopy.forEach(({ src, dest }) => {
+  const destPath = path.join(outDir, dest);
   
-  if (!fs.existsSync(srcPath)) {
-    console.warn(`⚠️  警告: ${file} 不存在，跳过`);
+  if (!fs.existsSync(src)) {
+    console.warn(`⚠️  警告: ${src} 不存在，跳过`);
     return;
   }
   
   try {
-    fs.copyFileSync(srcPath, destPath);
-    console.log(`✅ 已复制: ${file} -> out/${file}`);
+    fs.copyFileSync(src, destPath);
+    console.log(`✅ 已复制: ${path.basename(src)} -> out/${dest}`);
   } catch (error) {
-    console.error(`❌ 复制失败 ${file}:`, error.message);
+    console.error(`❌ 复制失败 ${dest}:`, error.message);
     process.exit(1);
   }
 });

@@ -4,7 +4,7 @@
 
 import { useChatStore } from "../chatStore"
 import { describe, test, expect, beforeEach } from "@/tests/runner"
-import { createModuleLogger } from "@/lib/logger"
+import { createModuleLogger } from "@/shared/logger"
 
 const testLogger = createModuleLogger("chatStore-test")
 

@@ -1,13 +1,7 @@
 "use client"
 
-import { cn } from "@/lib/utils"
-
-export interface Message {
-  id: string
-  role: "user" | "assistant"
-  content: string
-  timestamp: Date
-}
+import { cn } from "@/shared/utils/utils"
+import type { Message } from "@/features/chat/types"
 
 interface ChatMessageProps {
   message: Message

@@ -10,9 +10,9 @@ import { resolve } from "path"
 // 加载 .env.local 文件
 config({ path: resolve(__dirname, "../.env.local") })
 
-import { createQwenModel } from "../src/lib/llm/qwen"
-import { logger, createModuleLogger } from "@/lib/logger"
-import { getTestTranslation } from "@/lib/i18n/testI18n"
+import { createQwenModel } from "../src/features/ai/llm/qwen"
+import { logger, createModuleLogger } from "@/shared/logger"
+import { getTestTranslation } from "@/features/i18n/utils/testI18n"
 
 const testLogger = createModuleLogger("qwen-test")
 

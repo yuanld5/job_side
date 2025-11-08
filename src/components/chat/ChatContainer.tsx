@@ -3,8 +3,8 @@
 import { ChatMessage } from "./ChatMessage"
 import { ChatInput } from "./ChatInput"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { useChat } from "@/lib/hooks/useChat"
-import { useI18n } from "@/contexts/I18nContext"
+import { useChat } from "@/features/chat/hooks/useChat"
+import { useI18n } from "@/features/i18n/context/I18nContext"
 
 export function ChatContainer() {
   const { messages, isProcessing, sendMessage } = useChat()
