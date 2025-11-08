@@ -12,6 +12,8 @@ job_side/
 │   │   │   │   ├── page.tsx     # Dashboard 首页
 │   │   │   │   └── template.tsx # Dashboard 模板
 │   │   │   └── layout.tsx       # 应用路由组布局
+│   │   ├── api/                  # API Routes
+│   │   │   └── users/           # 用户管理 API
 │   │   ├── layout.tsx           # 根布局
 │   │   ├── page.tsx             # 首页
 │   │   ├── error.tsx            # 错误边界
@@ -19,20 +21,20 @@ job_side/
 │   │   ├── loading.tsx          # 加载状态
 │   │   └── not-found.tsx        # 404 页面
 │   │
-│   ├── components/              # React UI 组件
-│   │   ├── ui/                  # shadcn/ui 基础组件
-│   │   │   ├── button.tsx
-│   │   │   ├── input.tsx
-│   │   │   └── scroll-area.tsx
-│   │   ├── chat/                # 聊天 UI 组件
-│   │   │   ├── ChatContainer.tsx
-│   │   │   ├── ChatInput.tsx
-│   │   │   └── ChatMessage.tsx
-│   │   └── providers/           # Context Providers
-│   │       ├── I18nProviderWrapper.tsx
-│   │       └── StoreProvider.tsx
+│   ├── components/              # React UI 基础组件
+│   │   └── ui/                  # shadcn/ui 基础组件
+│   │       ├── button.tsx
+│   │       ├── input.tsx
+│   │       └── scroll-area.tsx
 │   │
-│   ├── features/                 # 功能模块（按业务功能分组）
+│   ├── domains/                  # 业务领域（Business Domains）
+│   │   └── users/               # 用户管理业务
+│   │       ├── types.ts         # 用户相关类型
+│   │       ├── services/        # 用户服务层
+│   │       │   └── userService.ts
+│   │       └── index.ts         # 统一导出
+│   │
+│   ├── features/                 # 技术功能（Technical Features）
 │   │   ├── chat/                # 聊天功能模块
 │   │   │   ├── hooks/           # 聊天相关 hooks
 │   │   │   │   └── useChat.ts
@@ -104,8 +106,6 @@ job_side/
 │   ├── PROJECT_STRUCTURE.md    # 项目结构说明
 │   ├── FEATURES.md             # 功能说明
 │   └── REFACTOR_PLAN.md        # 重组方案
-├── tests/                       # 测试工具
-│   └── runner.ts               # 测试运行器
 ├── middleware.ts               # Next.js 中间件
 ├── next.config.js              # Next.js 配置
 ├── tailwind.config.ts          # Tailwind CSS 配置
@@ -119,10 +119,11 @@ job_side/
 
 ### 为什么使用新的结构？
 
-1. **功能域清晰**：按业务功能分组（chat、i18n、ai），相关代码集中
-2. **职责明确**：每个目录有清晰的职责边界
-3. **易于扩展**：新功能在 `features/` 下新建目录即可
-4. **便于维护**：相关代码在一起，修改时容易找到
+1. **业务与技术分离**：`domains/` 存放业务逻辑，`features/` 存放技术功能
+2. **功能域清晰**：按业务功能和技术能力分组，相关代码集中
+3. **职责明确**：每个目录有清晰的职责边界
+4. **易于扩展**：新业务在 `domains/` 下新建，新技术功能在 `features/` 下新建
+5. **便于维护**：相关代码在一起，修改时容易找到
 
 ### 目录职责
 
@@ -130,15 +131,32 @@ job_side/
 - **路由定义**：所有页面和 API 路由
 - **布局系统**：根布局、嵌套布局、路由组布局
 - **特殊文件**：`error.tsx`、`loading.tsx`、`not-found.tsx`
+- **API Routes**：后端 API 端点（`app/api/`）
 
-#### `src/components/` - React UI 组件
-- **UI 基础组件**：shadcn/ui 组件（button、input 等）
-- **业务组件**：ChatContainer、ChatInput、ChatMessage
-- **Providers**：Context Providers 包装器
+#### `src/components/` - React UI 基础组件
+- **UI 基础组件**：shadcn/ui 组件（button、input、scroll-area 等）
+- **职责**：只包含可复用的基础 UI 组件，不包含业务组件
 
-#### `src/features/` - 功能模块（按业务功能分组）
+#### `src/domains/` - 业务领域（Business Domains）
+
+**业务逻辑**：具体的业务功能模块
+
+##### `domains/users/` - 用户管理业务
+- **types.ts**：用户相关类型定义
+- **services/**：用户服务层（API 调用）
+- **index.ts**：统一导出
+
+**未来可能的业务领域**：
+- `domains/orders/` - 订单管理
+- `domains/products/` - 产品管理
+- `domains/payments/` - 支付管理
+
+#### `src/features/` - 技术功能（Technical Features）
+
+**技术能力**：可复用的技术功能模块
 
 ##### `features/chat/` - 聊天功能
+- **components/**：聊天 UI 组件（ChatContainer, ChatInput, ChatMessage）
 - **hooks/**：`useChat` - 聊天逻辑 Hook
 - **store/**：`chatStore` - 聊天状态管理
 - **types.ts**：聊天相关类型定义
@@ -156,6 +174,7 @@ job_side/
 - **services/**：AI 服务（webAction.ts）
 
 #### `src/shared/` - 共享代码（跨功能模块使用）
+- **providers/**：全局 Providers（I18nProviderWrapper, StoreProvider）
 - **hooks/**：通用 React Hooks（useRouter）
 - **utils/**：通用工具函数（cn、utils）
 - **logger/**：日志工具
@@ -170,7 +189,10 @@ job_side/
 项目使用 `@/` 作为 `src/` 的别名：
 
 ```typescript
-// ✅ 功能模块导入
+// ✅ 业务领域导入
+import { userService, type User } from "@/domains/users"
+
+// ✅ 技术功能导入
 import { useChat } from "@/features/chat/hooks/useChat"
 import { useChatStore } from "@/features/chat/store/chatStore"
 import { useI18n } from "@/features/i18n/context/I18nContext"
@@ -183,7 +205,7 @@ import { useRouter } from "@/shared/hooks/useRouter"
 
 // ✅ 组件导入
 import { Button } from "@/components/ui/button"
-import { ChatContainer } from "@/components/chat/ChatContainer"
+import { ChatContainer } from "@/features/chat/components/ChatContainer"
 
 // ❌ 错误：不要使用相对路径
 import { useChat } from "../../features/chat/hooks/useChat"
@@ -204,24 +226,26 @@ src/
 
 **问题**：
 - `lib/` 目录过于杂乱
+- 业务逻辑和技术功能混在一起
 - 相关功能分散在不同目录
 - 难以快速定位代码
 
 ### 新结构（推荐）✅
 ```
 src/
-├── features/     # 按功能分组
-│   ├── chat/    # 聊天功能（hooks、store、types）
-│   ├── i18n/    # 国际化（context、locales、utils）
-│   └── ai/      # AI 功能（agents、llm、tools、services）
-├── shared/       # 共享代码
-└── components/   # UI 组件
+├── domains/      # 业务领域（Business Domains）
+│   └── users/   # 用户管理
+├── features/     # 技术功能（Technical Features）
+│   ├── chat/    # 聊天功能
+│   ├── i18n/    # 国际化
+│   └── ai/      # AI 功能
+└── shared/       # 共享代码
 ```
 
 **优势**：
-- 功能域清晰，相关代码集中
-- 职责明确，易于理解
-- 便于扩展和维护
+- ✅ 业务与技术分离，职责清晰
+- ✅ 功能域清晰，相关代码集中
+- ✅ 易于扩展和维护
 
 ## 🚀 Next.js 路由说明
 
@@ -230,11 +254,13 @@ src/
 1. **静态路由**：`src/app/page.tsx` → /
 2. **嵌套路由**：`src/app/(app)/dashboard/page.tsx` → /dashboard
 3. **路由组**：`(app)` 不影响 URL，只用于组织代码
+4. **API 路由**：`src/app/api/users/route.ts` → /api/users
 
 ### 当前可用路由
 
 - `/` - 首页（聊天界面）
 - `/dashboard` - Dashboard 页面
+- `/api/users` - 用户管理 API
 - `/not-found` - 404 页面
 
 ## 📚 更多信息

@@ -1,6 +1,6 @@
 "use client"
 
-import { ChatContainer } from "@/components/chat/ChatContainer"
+import { ChatContainer } from "@/features/chat/components/ChatContainer"
 import { LanguageSwitcher } from "@/features/i18n/components/LanguageSwitcher"
 import { useI18n } from "@/features/i18n/context/I18nContext"
 

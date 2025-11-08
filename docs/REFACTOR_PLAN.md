@@ -131,7 +131,7 @@ import { cn } from "@/shared/utils/utils"
 
 // 组件导入
 import { Button } from "@/components/ui/button"
-import { ChatContainer } from "@/components/chat/ChatContainer"
+import { ChatContainer } from "@/features/chat/components/ChatContainer"
 ```
 
 ## 迁移步骤

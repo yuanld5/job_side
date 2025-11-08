@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // 静态导出配置（用于 Chrome Extension）
-  // 如果需要使用 API Routes 和 Middleware，需要移除此配置
-  output: 'export',
-  distDir: 'out',
+  // 如果 ENABLE_API_ROUTES=true，则启用 API Routes（禁用静态导出）
+  // 如果 ENABLE_API_ROUTES=false 或未设置，则使用静态导出
+  ...(process.env.ENABLE_API_ROUTES === 'true' ? {} : {
+    output: 'export',
+    distDir: 'out',
+  }),
   
   // 图片优化配置
   images: {

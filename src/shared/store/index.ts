@@ -5,4 +5,5 @@
 
 export { useAppStore } from "./appStore"
 export { useChatStore } from "@/features/chat/store/chatStore"
+export type { Theme } from "./appStore"
 

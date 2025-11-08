@@ -7,9 +7,11 @@ import { create } from "zustand"
 import { persist } from "zustand/middleware"
 import type { Locale } from "@/features/i18n/locales"
 
+export type Theme = "light" | "dark" | "system"
+
 interface AppState {
   // 主题设置
-  theme: "light" | "dark" | "system"
+  theme: Theme
   
   // 应用设置
   settings: {
@@ -22,7 +24,7 @@ interface AppState {
   recentCommands: string[]
   
   // Actions
-  setTheme: (theme: "light" | "dark" | "system") => void
+  setTheme: (theme: Theme) => void
   updateSettings: (settings: Partial<AppState["settings"]>) => void
   addRecentCommand: (command: string) => void
   clearRecentCommands: () => void

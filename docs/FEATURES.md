@@ -19,7 +19,7 @@
 
 #### 组件结构
 ```
-src/components/chat/
+src/features/chat/components/
 ├── ChatContainer.tsx    # 聊天容器（主组件）
 ├── ChatInput.tsx        # 输入框组件
 └── ChatMessage.tsx      # 消息展示组件
@@ -27,7 +27,7 @@ src/components/chat/
 
 #### 使用示例
 ```tsx
-import { ChatContainer } from "@/components/chat/ChatContainer"
+import { ChatContainer } from "@/features/chat/components/ChatContainer"
 
 export default function Page() {
   return <ChatContainer />
