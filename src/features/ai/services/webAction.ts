@@ -7,7 +7,7 @@ import { createModuleLogger } from "@/shared/logger"
 
 const logger = createModuleLogger("webAction")
 
-// 动态导入 LangGraph（避免在静态导出时打包）
+// 动态导入 LangGraph
 async function getWebAgentGraph() {
   const { createWebAgentGraph } = await import("@/features/ai/agents/webAgentGraph")
   return createWebAgentGraph
@@ -38,15 +38,14 @@ export async function executeWebAction(
   
   logger.info(tLogger.executingWebAction, { command: request.command, locale, useLangGraph: request.useLangGraph })
   
-  // 静态导出时，LangGraph 不可用，强制使用标准 Agent
-  const useLangGraph = false // 静态导出不支持 LangGraph
-  // const useLangGraph = request.useLangGraph ?? false
+  // 是否使用 LangGraph（默认 false，可在请求中指定）
+  const useLangGraph = request.useLangGraph ?? false
 
   try {
     let result: string
 
     if (useLangGraph && typeof window === "undefined") {
-      // 仅在服务器端且未静态导出时使用 LangGraph
+      // 仅在服务器端使用 LangGraph
       logger.debug(tLogger.usingLangGraph)
       try {
         const createWebAgentGraph = await getWebAgentGraph()
@@ -76,7 +75,7 @@ export async function executeWebAction(
       }
     } else {
       logger.debug(tLogger.usingStandardAgent)
-      // 使用标准 LangChain Agent（兼容静态导出）
+      // 使用标准 LangChain Agent
       const agent = await createWebAgent(locale)
       logger.debug(tLogger.agentCreated)
       

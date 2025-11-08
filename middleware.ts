@@ -1,18 +1,12 @@
 /**
  * Next.js Middleware
  * 
- * ⚠️ 重要提示：由于 next.config.js 中配置了 output: 'export'（静态导出），
- * Middleware 在构建后的静态文件中不会执行。
- * 
- * 静态导出模式适用于：
- * - Chrome Extension 等静态部署场景
- * - 不需要服务端功能的场景
- * 
- * 如果需要使用 Middleware，需要：
- * 1. 移除 next.config.js 中的 output: 'export' 配置
- * 2. 使用 Next.js 服务器模式部署
- * 
- * 当前项目为 Chrome Extension，使用静态导出模式，此文件仅供参考。
+ * 在服务器模式下，Middleware 会在每个请求时执行。
+ * 可以用于：
+ * - 添加安全响应头
+ * - 路由重定向
+ * - 认证检查
+ * - 国际化处理
  */
 
 import { NextResponse } from "next/server"

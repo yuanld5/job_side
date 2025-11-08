@@ -212,21 +212,22 @@ npm run build:extension
 2. 选择"中文"或"English"
 3. 界面立即切换语言
 
-## 功能限制
+## 功能支持
 
-### 静态导出模式
-由于项目使用 `output: 'export'` 配置（Chrome Extension 需要），以下功能受限：
+### 服务器模式
+项目使用标准的 Next.js 服务器模式，支持以下功能：
 
-1. **API Routes** - 不工作（已移除）
-2. **Middleware** - 不工作（仅开发时有效）
-3. **Server Actions** - 不工作
-4. **LangGraph** - 不工作（使用标准 Agent）
-5. **动态路由** - 需要 `generateStaticParams()`
+1. **API Routes** - ✅ 正常工作
+2. **Middleware** - ✅ 正常工作
+3. **Server Actions** - ✅ 正常工作
+4. **LangGraph** - ✅ 可在服务器端使用
+5. **动态路由** - ✅ 完全支持
 
 ### 当前工作模式
+- ✅ 服务器端渲染（SSR）
 - ✅ 客户端组件
-- ✅ 静态页面生成
-- ✅ LangChain Agent（客户端）
+- ✅ API Routes
+- ✅ LangChain Agent（服务器端和客户端）
 - ✅ 国际化
 - ✅ 聊天界面
 

@@ -199,8 +199,8 @@ export const apiRoutes = {
 
 ## ⚠️ 注意事项
 
-1. **环境变量**: 必须设置 `ENABLE_API_ROUTES=true` 才能使用 API Routes
-2. **静态导出**: 如果 `ENABLE_API_ROUTES=false` 或未设置，项目会使用静态导出模式
+1. **API Routes**: 项目已启用 API Routes，可直接使用
+2. **服务器模式**: 项目使用标准的 Next.js 服务器模式，支持完整的后端功能
 3. **数据持久化**: 当前示例使用内存存储，实际项目中应该使用数据库
 4. **错误处理**: Service 层已经包含错误处理，API Routes 中也应该处理错误
 

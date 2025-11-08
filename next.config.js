@@ -1,16 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // 静态导出配置（用于 Chrome Extension）
-  // 如果 ENABLE_API_ROUTES=true，则启用 API Routes（禁用静态导出）
-  // 如果 ENABLE_API_ROUTES=false 或未设置，则使用静态导出
-  ...(process.env.ENABLE_API_ROUTES === 'true' ? {} : {
-    output: 'export',
-    distDir: 'out',
-  }),
+  // 不再使用静态导出模式，启用 API Routes
+  // 如果需要静态导出，可以设置 output: 'export'
   
   // 图片优化配置
   images: {
-    unoptimized: true, // 静态导出需要禁用图片优化
+    // 可以启用图片优化（需要配置图片域名）
+    // unoptimized: false,
   },
   
   // React 严格模式

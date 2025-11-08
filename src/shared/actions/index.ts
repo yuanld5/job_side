@@ -1,8 +1,6 @@
 /**
  * Server Actions
  * Next.js 14+ 服务器操作
- * 注意：在静态导出模式下，Server Actions 不会工作
- * 如需使用，需要移除 next.config.js 中的 output: 'export'
  */
 
 "use server"

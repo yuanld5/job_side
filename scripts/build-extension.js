@@ -1,14 +1,16 @@
 #!/usr/bin/env node
 
 /**
- * 构建脚本：将Chrome扩展所需文件复制到out目录
+ * 构建脚本：将Chrome扩展所需文件复制到构建目录
+ * 注意：项目已不再使用静态导出模式，此脚本可能需要调整
  */
 
 const fs = require('fs');
 const path = require('path');
 
 const rootDir = path.resolve(__dirname, '..');
-const outDir = path.join(rootDir, 'out');
+// Next.js 标准构建输出目录是 .next，而不是 out
+const outDir = path.join(rootDir, '.next');
 
 // 需要复制的文件列表（从 extension 目录）
 const extensionDir = path.join(rootDir, 'extension');

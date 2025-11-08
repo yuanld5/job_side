@@ -32,19 +32,20 @@ export async function POST(request: Request) {
 }
 ```
 
-## ⚠️ 当前项目限制
+## ✅ 当前项目支持
 
-项目配置了 `output: 'export'`（静态导出），这意味着：
+项目使用标准的 Next.js 服务器模式，支持：
 
-- ❌ **不支持 Next.js API Routes**（`app/api/` 目录）
-- ❌ **不支持 Server Actions**（在静态导出模式下）
-- ✅ **支持 Service 层**（客户端调用外部 API）
+- ✅ **Next.js API Routes**（`app/api/` 目录）
+- ✅ **Server Actions**（服务器操作）
+- ✅ **Middleware**（中间件）
+- ✅ **Service 层**（业务逻辑层）
 
 ## 🏗️ 推荐的架构方案
 
-### 方案 1：Service 层 + 外部 API（当前架构）
+### 方案 1：Service 层 + API Routes（推荐架构）
 
-适合静态导出项目，所有业务逻辑在客户端通过 Service 层处理：
+所有业务逻辑通过 Service 层处理，Service 层调用 API Routes：
 
 ```
 ┌─────────────┐
@@ -188,23 +189,21 @@ const sendMessage = async (content: string) => {
 
 ## 🎯 建议
 
-### 对于 Chrome Extension 项目
+### 对于动态工具类项目
 
-**推荐使用方案 1**（Service 层 + 外部 API）：
+**推荐使用方案 1**（Service 层 + API Routes）：
 
-1. ✅ 保持静态导出，适合 Chrome Extension
+1. ✅ 使用 Next.js 服务器模式，支持完整的后端功能
 2. ✅ 使用 Service 层处理业务逻辑
-3. ✅ 通过 `fetcher` 调用外部 API 或 Chrome Extension API
+3. ✅ 通过 API Routes 提供后端接口
 4. ✅ 代码结构清晰，易于维护
 
-### 如果需要后端 API
+### 项目架构
 
-如果确实需要 Next.js API Routes：
-
-1. 移除 `output: 'export'` 配置
-2. 创建 `src/app/api/` 目录
-3. 实现 API 路由处理函数
-4. 在 Service 层调用这些 API
+1. ✅ API Routes 已启用（`src/app/api/`）
+2. ✅ Service 层已实现（`domains/*/services/`）
+3. ✅ 支持 Server Actions（`shared/actions/`）
+4. ✅ 支持 Middleware（`middleware.ts`）
 
 ## 📚 相关文件
 

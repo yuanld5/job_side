@@ -6,6 +6,7 @@
 // 页面路由（前端导航）
 export const routes = {
   home: "/",
+  login: "/login",
   about: "/about",
   dashboard: "/dashboard",
   dashboardSettings: "/dashboard/settings",
@@ -26,6 +27,12 @@ export const dynamicRoutes = {
 
 // API 路由配置
 export const apiRoutes = {
+  auth: {
+    login: "/api/auth/login",
+    logout: "/api/auth/logout",
+    verify: "/api/auth/verify",
+    me: "/api/auth/me",
+  },
   users: "/api/users",
   userDetail: (id: string) => `/api/users/${id}`,
   // 添加新 API 路由示例：
