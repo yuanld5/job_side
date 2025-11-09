@@ -6,12 +6,10 @@
 job_side/
 ├── src/                          # 所有源代码（统一管理）
 │   ├── app/                      # Next.js App Router（路由和页面）
-│   │   ├── (app)/                # 路由组：应用相关路由
-│   │   │   ├── dashboard/        # Dashboard 页面
-│   │   │   │   ├── layout.tsx   # Dashboard 布局
-│   │   │   │   ├── page.tsx     # Dashboard 首页
-│   │   │   │   └── template.tsx # Dashboard 模板
-│   │   │   └── layout.tsx       # 应用路由组布局
+│   │   ├── dashboard/            # Dashboard 页面
+│   │   │   ├── layout.tsx       # Dashboard 布局
+│   │   │   ├── page.tsx         # Dashboard 首页
+│   │   │   └── template.tsx    # Dashboard 模板
 │   │   ├── api/                  # API Routes
 │   │   │   └── users/           # 用户管理 API
 │   │   ├── layout.tsx           # 根布局
@@ -252,9 +250,8 @@ src/
 ### 路由类型
 
 1. **静态路由**：`src/app/page.tsx` → /
-2. **嵌套路由**：`src/app/(app)/dashboard/page.tsx` → /dashboard
-3. **路由组**：`(app)` 不影响 URL，只用于组织代码
-4. **API 路由**：`src/app/api/users/route.ts` → /api/users
+2. **嵌套路由**：`src/app/dashboard/page.tsx` → /dashboard
+3. **API 路由**：`src/app/api/users/route.ts` → /api/users
 
 ### 当前可用路由
 

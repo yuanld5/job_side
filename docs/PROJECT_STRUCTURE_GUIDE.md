@@ -34,13 +34,11 @@
 job_side/
 ├── src/                              # 所有源代码
 │   ├── app/                          # Next.js App Router
-│   │   ├── (app)/                    # 路由组：应用相关路由
-│   │   │   ├── dashboard/            # Dashboard 页面
-│   │   │   │   ├── layout.tsx        # Dashboard 布局
-│   │   │   │   ├── page.tsx          # Dashboard 首页
-│   │   │   │   ├── template.tsx      # Dashboard 模板
-│   │   │   │   └── users/            # 用户管理页面（动态路由）
-│   │   │   └── layout.tsx            # 应用路由组布局
+│   │   ├── dashboard/               # Dashboard 页面
+│   │   │   ├── layout.tsx           # Dashboard 布局
+│   │   │   ├── page.tsx             # Dashboard 首页
+│   │   │   ├── template.tsx         # Dashboard 模板
+│   │   │   └── users/               # 用户管理页面（动态路由）
 │   │   ├── api/                      # API Routes（后端端点）
 │   │   │   └── auth/                 # 认证相关 API
 │   │   │       ├── login/            # POST /api/auth/login
@@ -230,11 +228,11 @@ job_side/
 - **API 路由**：`route.ts` 文件定义 API 端点
 - **特殊文件**：`error.tsx`、`loading.tsx`、`not-found.tsx`
 
-#### 路由组 `(app)`
+#### 路由组织
 
-- 使用括号 `()` 包裹的目录名不影响 URL
-- 用于组织代码和共享布局
-- 例如：`(app)/dashboard/` → `/dashboard`
+- 所有路由直接在 `app/` 目录下组织
+- 使用嵌套目录创建嵌套路由
+- 例如：`app/dashboard/` → `/dashboard`
 
 #### API Routes
 

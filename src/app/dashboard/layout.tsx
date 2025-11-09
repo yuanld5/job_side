@@ -1,8 +1,8 @@
 "use client"
 
 /**
- * 嵌套布局示例 - Dashboard 布局
- * 这个布局会嵌套在根布局和 (app) 路由组布局内
+ * Dashboard 布局
+ * 这个布局会嵌套在根布局内
  */
 
 import Link from "next/link"
