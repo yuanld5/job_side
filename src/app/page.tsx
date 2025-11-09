@@ -3,6 +3,7 @@
 import { ChatContainer } from "@/features/chat/components/ChatContainer"
 import { LanguageSwitcher } from "@/features/i18n/components/LanguageSwitcher"
 import { useI18n } from "@/features/i18n/context/I18nContext"
+import { replacePlaceholders } from "@/features/i18n/utils/getTranslation"
 import { AuthGuard } from "@/shared/components/AuthGuard"
 import { useAuthStore } from "@/domains/auth"
 import { Button } from "@/components/ui/button"
@@ -20,7 +21,7 @@ function ChatPage() {
       logout()
       router.push("/login")
     } catch (error) {
-      console.error("登出失败", error)
+      console.error(t.auth.logoutFailed, error)
       // 即使 API 调用失败，也清除本地状态
       logout()
       router.push("/login")
@@ -39,7 +40,7 @@ function ChatPage() {
           </div>
           {user && (
             <div className="text-sm text-muted-foreground">
-              欢迎，{user.name || user.username}
+              {replacePlaceholders(t.auth.welcome, { name: user.name || user.username })}
             </div>
           )}
         </div>
@@ -49,7 +50,7 @@ function ChatPage() {
             size="sm"
             onClick={() => router.push("/settings")}
             className="h-8 w-8 p-0"
-            title="设置"
+            title={t.auth.settings}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +73,7 @@ function ChatPage() {
             size="sm"
             onClick={handleLogout}
           >
-            登出
+            {t.auth.logout}
           </Button>
         </div>
       </header>

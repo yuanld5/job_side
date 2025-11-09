@@ -56,18 +56,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  modal,
 }: {
   children: React.ReactNode
-  modal?: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="zh">
       <body className={inter.className}>
         <I18nProviderWrapper>
           <StoreProvider>
             {children}
-            {modal}
           </StoreProvider>
         </I18nProviderWrapper>
       </body>

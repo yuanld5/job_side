@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input"
 import { authService, useAuthStore } from "@/domains/auth"
 import { useI18n } from "@/features/i18n/context/I18nContext"
 import { createModuleLogger } from "@/shared/logger"
+import { loginSchema, type LoginFormData } from "@/domains/auth/schemas/loginSchema"
 
 const logger = createModuleLogger("login-page")
 
@@ -23,18 +24,44 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [fieldErrors, setFieldErrors] = useState<{
+    username?: string
+    password?: string
+  }>({})
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
+    setFieldErrors({})
+
+    // 使用 Zod 进行验证
+    const result = loginSchema.safeParse({
+      username,
+      password,
+    })
+
+    if (!result.success) {
+      // 处理验证错误
+      const errors: { username?: string; password?: string } = {}
+      result.error.errors.forEach((err) => {
+        if (err.path[0] === "username") {
+          errors.username = err.message
+        } else if (err.path[0] === "password") {
+          errors.password = err.message
+        }
+      })
+      setFieldErrors(errors)
+      return
+    }
+
     setIsLoading(true)
 
     try {
       logger.info("用户尝试登录", { username })
 
       const response = await authService.login({
-        username,
-        password,
+        username: result.data.username,
+        password: result.data.password,
       })
 
       if (response.success && response.user && response.token) {
@@ -52,11 +79,11 @@ export default function LoginPage() {
         // 跳转到首页（聊天界面）
         router.push("/")
       } else {
-        setError(response.message || "登录失败，请检查用户名和密码")
+        setError(response.message || t.auth.loginFailedCheck)
       }
     } catch (error) {
       logger.error("登录异常", error)
-      setError(error instanceof Error ? error.message : "登录失败，请稍后重试")
+      setError(error instanceof Error ? error.message : t.auth.loginFailedRetry)
     } finally {
       setIsLoading(false)
     }
@@ -67,40 +94,61 @@ export default function LoginPage() {
       <div className="w-full max-w-md space-y-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold">{t.common.title}</h1>
-          <p className="text-muted-foreground mt-2">请登录以继续</p>
+          <p className="text-muted-foreground mt-2">{t.auth.pleaseLogin}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
             <label htmlFor="username" className="text-sm font-medium">
-              用户名
+              {t.auth.username}
             </label>
             <Input
               id="username"
               type="text"
-              placeholder="请输入用户名"
+              placeholder={t.auth.enterUsername}
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
+              onChange={(e) => {
+                setUsername(e.target.value)
+                // 清除该字段的错误
+                if (fieldErrors.username) {
+                  setFieldErrors((prev) => ({ ...prev, username: undefined }))
+                }
+              }}
               disabled={isLoading}
               autoFocus
+              className={fieldErrors.username ? "border-destructive" : ""}
             />
+            {fieldErrors.username && (
+              <p className="text-sm text-destructive">
+                {t.auth[fieldErrors.username as keyof typeof t.auth] || fieldErrors.username}
+              </p>
+            )}
           </div>
 
           <div className="space-y-2">
             <label htmlFor="password" className="text-sm font-medium">
-              密码
+              {t.auth.password}
             </label>
             <Input
               id="password"
               type="password"
-              placeholder="请输入密码"
+              placeholder={t.auth.enterPassword}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              onChange={(e) => {
+                setPassword(e.target.value)
+                // 清除该字段的错误
+                if (fieldErrors.password) {
+                  setFieldErrors((prev) => ({ ...prev, password: undefined }))
+                }
+              }}
               disabled={isLoading}
-              minLength={6}
+              className={fieldErrors.password ? "border-destructive" : ""}
             />
+            {fieldErrors.password && (
+              <p className="text-sm text-destructive">
+                {t.auth[fieldErrors.password as keyof typeof t.auth] || fieldErrors.password}
+              </p>
+            )}
           </div>
 
           {error && (
@@ -114,12 +162,12 @@ export default function LoginPage() {
             className="w-full"
             disabled={isLoading}
           >
-            {isLoading ? "登录中..." : "登录"}
+            {isLoading ? t.auth.loggingIn : t.auth.login}
           </Button>
         </form>
 
         <div className="text-center text-sm text-muted-foreground">
-          <p>提示：密码长度至少 6 位</p>
+          <p>{t.auth.passwordHint}</p>
         </div>
       </div>
     </div>

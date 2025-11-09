@@ -10,6 +10,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useI18n } from "@/features/i18n/context/I18nContext"
 
 export default function DashboardTemplate({
   children,
@@ -23,10 +24,12 @@ export default function DashboardTemplate({
     // 可以在这里添加进入动画等逻辑
   }, [])
 
+  const { t } = useI18n()
+
   if (!mounted) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-muted-foreground">加载中...</div>
+        <div className="text-muted-foreground">{t.loading.message}</div>
       </div>
     )
   }

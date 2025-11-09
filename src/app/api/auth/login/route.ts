@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createModuleLogger } from '@/shared/logger'
 import { authServerService } from '@/domains/auth/services/authServerService'
+import { getServerTranslation } from '@/features/i18n/utils/serverI18n'
 
 const logger = createModuleLogger('api-auth-login')
 
@@ -14,6 +15,8 @@ const logger = createModuleLogger('api-auth-login')
  * 用户登录
  */
 export async function POST(request: NextRequest) {
+  const t = getServerTranslation(request)
+  
   try {
     const body = await request.json()
     const { username, password } = body
@@ -24,7 +27,7 @@ export async function POST(request: NextRequest) {
     const result = await authServerService.validateLogin({
       username,
       password,
-    })
+    }, t)
 
     // 根据结果返回相应的 HTTP 状态码
     const status = result.success ? 200 : 401
@@ -33,7 +36,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     logger.error('登录处理失败', error)
     return NextResponse.json(
-      { success: false, message: '登录失败，请稍后重试' },
+      { success: false, message: t.auth.loginFailedRetry },
       { status: 500 }
     )
   }

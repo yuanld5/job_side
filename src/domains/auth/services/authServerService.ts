@@ -6,6 +6,7 @@
 
 import { createModuleLogger } from '@/shared/logger'
 import type { LoginCredentials, LoginResponse, User } from '../types'
+import type { Translation } from '@/features/i18n/locales'
 
 const logger = createModuleLogger('authServerService')
 
@@ -17,15 +18,16 @@ export const authServerService = {
   /**
    * 验证登录凭据
    * @param credentials 登录凭据
+   * @param t 翻译对象（可选，用于国际化）
    */
-  async validateLogin(credentials: LoginCredentials): Promise<LoginResponse> {
+  async validateLogin(credentials: LoginCredentials, t?: Translation): Promise<LoginResponse> {
     logger.debug('验证登录凭据', { username: credentials.username })
 
     // 验证必填字段
     if (!credentials.username || !credentials.password) {
       return {
         success: false,
-        message: '用户名和密码是必填项',
+        message: t?.auth.usernameRequired || '请输入用户名和密码',
       }
     }
 
@@ -33,7 +35,7 @@ export const authServerService = {
     if (credentials.password.length < 6) {
       return {
         success: false,
-        message: '密码长度至少 6 位',
+        message: t?.auth.passwordMinLength || '密码长度至少 6 位',
       }
     }
 
@@ -73,13 +75,13 @@ export const authServerService = {
         success: true,
         user: mockUser,
         token: mockToken,
-        message: '登录成功',
+        message: t?.auth.loginSuccess || '登录成功',
       }
     } catch (error) {
       logger.error('登录验证失败', error)
       return {
         success: false,
-        message: error instanceof Error ? error.message : '登录失败，请稍后重试',
+        message: error instanceof Error ? error.message : (t?.auth.loginFailedRetry || '登录失败，请稍后重试'),
       }
     }
   },

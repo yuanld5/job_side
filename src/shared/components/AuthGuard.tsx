@@ -8,6 +8,7 @@
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { useAuthStore } from "@/domains/auth"
+import { useI18n } from "@/features/i18n/context/I18nContext"
 
 interface AuthGuardProps {
   children: React.ReactNode
@@ -16,6 +17,7 @@ interface AuthGuardProps {
 export function AuthGuard({ children }: AuthGuardProps) {
   const router = useRouter()
   const { isAuthenticated } = useAuthStore()
+  const { t } = useI18n()
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -27,7 +29,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <p className="text-muted-foreground">正在跳转到登录页面...</p>
+          <p className="text-muted-foreground">{t.auth.redirectingToLogin}</p>
         </div>
       </div>
     )

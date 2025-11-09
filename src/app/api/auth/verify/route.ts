@@ -5,6 +5,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createModuleLogger } from '@/shared/logger'
 import { authServerService } from '@/domains/auth/services/authServerService'
+import { getServerTranslation } from '@/features/i18n/utils/serverI18n'
 
 const logger = createModuleLogger('api-auth-verify')
 
@@ -13,13 +14,15 @@ const logger = createModuleLogger('api-auth-verify')
  * 验证 token 是否有效
  */
 export async function POST(request: NextRequest) {
+  const t = getServerTranslation(request)
+  
   try {
     const body = await request.json()
     const { token } = body
 
     if (!token) {
       return NextResponse.json(
-        { valid: false, message: 'Token 不能为空' },
+        { valid: false, message: t.auth.tokenEmpty },
         { status: 400 }
       )
     }
@@ -35,7 +38,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     logger.error('Token 验证失败', error)
     return NextResponse.json(
-      { valid: false, message: 'Token 验证失败' },
+      { valid: false, message: t.auth.tokenVerifyFailed },
       { status: 500 }
     )
   }

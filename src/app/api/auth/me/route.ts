@@ -5,6 +5,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createModuleLogger } from '@/shared/logger'
 import { authServerService } from '@/domains/auth/services/authServerService'
+import { getServerTranslation } from '@/features/i18n/utils/serverI18n'
 
 const logger = createModuleLogger('api-auth-me')
 
@@ -16,6 +17,8 @@ export const dynamic = 'force-dynamic'
  * 获取当前用户信息
  */
 export async function GET(request: NextRequest) {
+  const t = getServerTranslation(request)
+  
   try {
     // 从请求头获取 token
     const authHeader = request.headers.get('authorization')
@@ -23,7 +26,7 @@ export async function GET(request: NextRequest) {
 
     if (!token) {
       return NextResponse.json(
-        { error: '未提供认证 token' },
+        { error: t.auth.tokenRequired },
         { status: 401 }
       )
     }
@@ -35,7 +38,7 @@ export async function GET(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: '用户不存在或 token 无效' },
+        { error: t.auth.tokenInvalid },
         { status: 401 }
       )
     }
@@ -46,7 +49,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     logger.error('获取用户信息失败', error)
     return NextResponse.json(
-      { error: '获取用户信息失败' },
+      { error: t.auth.getUserFailed },
       { status: 500 }
     )
   }
