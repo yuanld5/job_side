@@ -9,6 +9,9 @@ import { useAuthStore } from "@/domains/auth"
 import { Button } from "@/components/ui/button"
 import { authService } from "@/domains/auth"
 import { useRouter } from "next/navigation"
+import { createModuleLogger } from "@/shared/logger"
+
+const logger = createModuleLogger("chat-page")
 
 function ChatPage() {
   const { t } = useI18n()
@@ -17,11 +20,13 @@ function ChatPage() {
 
   const handleLogout = async () => {
     try {
+      logger.info("用户尝试登出")
       await authService.logout()
       logout()
+      logger.info("登出成功")
       router.push("/login")
     } catch (error) {
-      console.error(t.auth.logoutFailed, error)
+      logger.error("登出失败", error)
       // 即使 API 调用失败，也清除本地状态
       logout()
       router.push("/login")

@@ -25,8 +25,17 @@ class Logger {
 
   constructor(level: LogLevel = LogLevel.INFO) {
     this.level = level
-    if (process.env.LOG_LEVEL) {
-      this.level = LogLevel[process.env.LOG_LEVEL as keyof typeof LogLevel] || level
+    // 支持浏览器环境：使用 NEXT_PUBLIC_ 前缀的环境变量
+    // 服务器端：使用 LOG_LEVEL
+    // 客户端：使用 NEXT_PUBLIC_LOG_LEVEL
+    const logLevel = 
+      (typeof window !== 'undefined' 
+        ? process.env.NEXT_PUBLIC_LOG_LEVEL 
+        : process.env.LOG_LEVEL) || 
+      process.env.NEXT_PUBLIC_LOG_LEVEL
+    
+    if (logLevel) {
+      this.level = LogLevel[logLevel as keyof typeof LogLevel] || level
     }
   }
 
@@ -108,10 +117,19 @@ class Logger {
   }
 }
 
+// 获取默认日志级别（支持浏览器和服务器环境）
+function getDefaultLogLevel(): LogLevel {
+  // 开发环境默认 DEBUG，生产环境默认 INFO
+  const isDev = 
+    (typeof window !== 'undefined' 
+      ? process.env.NODE_ENV === "development"
+      : process.env.NODE_ENV !== "production")
+  
+  return isDev ? LogLevel.DEBUG : LogLevel.INFO
+}
+
 // 创建单例
-export const logger = new Logger(
-  process.env.NODE_ENV === "development" ? LogLevel.DEBUG : LogLevel.INFO
-)
+export const logger = new Logger(getDefaultLogLevel())
 
 // 创建模块特定的 logger
 export function createModuleLogger(module: string) {

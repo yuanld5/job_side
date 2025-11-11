@@ -5,10 +5,24 @@ import { ChatInput } from "./ChatInput"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useChat } from "@/features/chat/hooks/useChat"
 import { useI18n } from "@/features/i18n/context/I18nContext"
+import { createModuleLogger } from "@/shared/logger"
+import { useEffect } from "react"
+
+const logger = createModuleLogger("chat-container")
 
 export function ChatContainer() {
   const { messages, isProcessing, sendMessage } = useChat()
   const { t } = useI18n()
+
+  useEffect(() => {
+    logger.debug("ChatContainer 已挂载")
+  }, [])
+
+  useEffect(() => {
+    if (messages.length > 0) {
+      logger.debug("消息列表更新", { messageCount: messages.length })
+    }
+  }, [messages.length])
 
   return (
     <div className="flex flex-col h-full">
